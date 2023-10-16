@@ -1,9 +1,9 @@
 module.exports = {
   apps: [
     {
-      name: "strapi",
+      name: "strapi_backend",
       script: "yarn",
-      args: "develop",
+      args: "run develop",
     },
   ],
 };
