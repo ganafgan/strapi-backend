@@ -719,6 +719,7 @@ export interface ApiOrderOrder extends Schema.CollectionType {
     singularName: 'order';
     pluralName: 'orders';
     displayName: 'order';
+    description: '';
   };
   options: {
     draftAndPublish: true;
@@ -729,7 +730,7 @@ export interface ApiOrderOrder extends Schema.CollectionType {
     deliveryAddress: Attribute.String;
     courierName: Attribute.String;
     courierPrice: Attribute.Integer;
-    orderStatus: Attribute.Enumeration<
+    status: Attribute.Enumeration<
       ['waiting-payment', 'packaging', 'on-delivery', 'done', 'cancel']
     >;
     createdAt: Attribute.DateTime;
@@ -743,6 +744,37 @@ export interface ApiOrderOrder extends Schema.CollectionType {
       Attribute.Private;
     updatedBy: Attribute.Relation<
       'api::order.order',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiPaymentCallbackPaymentCallback
+  extends Schema.CollectionType {
+  collectionName: 'payment_callbacks';
+  info: {
+    singularName: 'payment-callback';
+    pluralName: 'payment-callbacks';
+    displayName: 'PaymentCallback';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    history: Attribute.JSON;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::payment-callback.payment-callback',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::payment-callback.payment-callback',
       'oneToOne',
       'admin::user'
     > &
@@ -808,6 +840,7 @@ declare module '@strapi/types' {
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'api::category.category': ApiCategoryCategory;
       'api::order.order': ApiOrderOrder;
+      'api::payment-callback.payment-callback': ApiPaymentCallbackPaymentCallback;
       'api::product.product': ApiProductProduct;
     }
   }
